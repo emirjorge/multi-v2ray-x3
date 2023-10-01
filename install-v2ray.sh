@@ -200,7 +200,15 @@ EOF
         $iptable_way-save -c > /root/.iptables
     fi
 
+    #SI LA VERSION ES MAYOR O IGUAL A 23.04 INSTALA PIPX VIRTUAL
+    version_OS=$(lsb_release -r | awk '{print $2}')
+    if [[ "$(echo -e "23.04\n$version_OS" | sort -V | head -n1)" == "23.04" ]]; then
+    pipx install v2ray_util
+    else
     pip install -U v2ray_util
+    fi
+
+    #pip install -U v2ray_util
 
     if [[ -e $util_path ]];then
         [[ -z $(cat $util_path|grep lang) ]] && echo "lang=en" >> $util_path
