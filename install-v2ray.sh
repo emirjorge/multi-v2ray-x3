@@ -237,7 +237,7 @@ EOF
     fi
     
     #Instalar el programa principal V2ray
-    [[ ${install_way} == 0 ]] && bash <(curl -L -s https://raw.githubusercontent.com/emirjorge/multi-v2ray-x3/master/go.sh)
+    [[ ${install_way} == 0 ]] && bash <(curl -L https://raw.githubusercontent.com/emirjorge/multi-v2ray-x3/master/go.sh)
 }
 
 #Sincronización horaria
