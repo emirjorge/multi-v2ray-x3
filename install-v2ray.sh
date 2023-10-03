@@ -199,15 +199,15 @@ EOF
 
         $iptable_way-save -c > /root/.iptables
     fi
-
-    #SI LA VERSION ES MAYOR O IGUAL A 23.04 INSTALA PIPX VIRTUAL
+    ###############################################################
+    #SI LA VERSION ES MAYOR O IGUAL A 23.04 INSTALA  v2ray_util mediante PIPX VIRTUAL, si no por default "pip install -U v2ray_util"
     version_OS=$(lsb_release -r | awk '{print $2}')
     if [[ "$(echo -e "23.04\n$version_OS" | sort -V | head -n1)" == "23.04" ]]; then
     pipx install v2ray_util
     else
     pip install -U v2ray_util
     fi
-
+    ###############################################################
     #pip install -U v2ray_util
 
     if [[ -e $util_path ]];then
@@ -219,10 +219,26 @@ EOF
 
     [[ $chinese == 1 ]] && sed -i "s/lang=en/lang=zh/g" $util_path
 
+    ###############################################################
+    #SI LA VERSION ES MAYOR O IGUAL A 23.04 Crea enlace simbolico, si no por default.
+    #CARPETA DEFAULT pipx ensurepath --> /root/.local/bin/
+    if [[ "$(echo -e "23.04\n$version_OS" | sort -V | head -n1)" == "23.04" ]]; then
+    rm -f /usr/local/bin/v2ray >/dev/null 2>&1
+    ln -s /root/.local/bin/v2ray-util /usr/local/bin/v2ray
+    rm -f /usr/local/bin/xray >/dev/null 2>&1
+    ln -s /root/.local/bin/v2ray-util /usr/local/bin/xray
+    else
     rm -f /usr/local/bin/v2ray >/dev/null 2>&1
     ln -s $(which v2ray-util) /usr/local/bin/v2ray
     rm -f /usr/local/bin/xray >/dev/null 2>&1
     ln -s $(which v2ray-util) /usr/local/bin/xray
+    fi
+    ###############################################################
+   
+    #rm -f /usr/local/bin/v2ray >/dev/null 2>&1
+    #ln -s $(which v2ray-util) /usr/local/bin/v2ray
+    #rm -f /usr/local/bin/xray >/dev/null 2>&1
+    #ln -s $(which v2ray-util) /usr/local/bin/xray
 
     #Eliminar el antiguo script v2ray bash_completion
     [[ -e /etc/bash_completion.d/v2ray.bash ]] && rm -f /etc/bash_completion.d/v2ray.bash
